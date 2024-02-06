@@ -162,11 +162,11 @@ var (
 )
 
 func EventQueryTxFor(tx Tx) cmtpubsub.Query {
-	return cmtquery.MustParse(fmt.Sprintf("%s='%s' AND %s='%X'", EventTypeKey, EventTx, TxHashKey, tx.Hash()))
+	return cmtquery.MustCompile(fmt.Sprintf("%s='%s' AND %s='%X'", EventTypeKey, EventTx, TxHashKey, tx.Hash()))
 }
 
 func QueryForEvent(eventType string) cmtpubsub.Query {
-	return cmtquery.MustParse(fmt.Sprintf("%s='%s'", EventTypeKey, eventType))
+	return cmtquery.MustCompile(fmt.Sprintf("%s='%s'", EventTypeKey, eventType))
 }
 
 // BlockEventPublisher publishes all block related events
