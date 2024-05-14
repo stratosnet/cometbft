@@ -21,6 +21,7 @@ import (
 	cfg "github.com/cometbft/cometbft/config"
 	cs "github.com/cometbft/cometbft/consensus"
 	"github.com/cometbft/cometbft/crypto"
+	"github.com/cometbft/cometbft/deepmind"
 	"github.com/cometbft/cometbft/evidence"
 	"github.com/cometbft/cometbft/light"
 
@@ -898,6 +899,12 @@ func NewNodeWithContext(ctx context.Context,
 		genDoc.ChainID, dbProvider, eventBus, logger)
 	if err != nil {
 		return nil, err
+	}
+
+	// Initialize data extraction
+	if config.Extractor.Enabled {
+		deepmind.Initialize(config.Extractor)
+		logger.Info("Initialized extractor module", "output", config.Extractor.OutputFile)
 	}
 
 	// If an address is provided, listen on the socket for a connection from an
