@@ -14,7 +14,7 @@ import (
 
 	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cometbft/cometbft/libs/service"
-	types "github.com/cometbft/cometbft/rpc/jsonrpc/types"
+	"github.com/cometbft/cometbft/rpc/jsonrpc/types"
 )
 
 // WebSocket handler
@@ -94,7 +94,8 @@ func (wm *WebsocketManager) WebsocketHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	if err := con.Stop(); err != nil {
-		wm.logger.Error("error while stopping connection", "error", err)
+		//ST-310:Change log level - Error level to Info
+		wm.logger.Info("error while stopping connection", "warn", err)
 	}
 }
 
@@ -324,7 +325,8 @@ func (wsc *wsConnection) readRoutine() {
 				if websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 					wsc.Logger.Info("Client closed the connection")
 				} else {
-					wsc.Logger.Error("Failed to read request", "err", err)
+					//ST-310:Change log level - Error level to Info
+					wsc.Logger.Info("Failed to read request", "warn", err)
 				}
 				if err := wsc.Stop(); err != nil {
 					wsc.Logger.Error("Error closing websocket connection", "err", err)
