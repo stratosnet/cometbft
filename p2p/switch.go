@@ -335,7 +335,8 @@ func (sw *Switch) StopPeerForError(peer Peer, reason interface{}) {
 		return
 	}
 
-	sw.Logger.Error("Stopping peer for error", "peer", peer, "err", reason)
+	//ST-310:Change log level - Error level to Info
+	sw.Logger.Info("Stopping peer for error", "peer", peer, "warn", reason)
 	sw.stopAndRemovePeer(peer, reason)
 
 	if peer.IsPersistent() {
@@ -365,7 +366,8 @@ func (sw *Switch) StopPeerGracefully(peer Peer) {
 func (sw *Switch) stopAndRemovePeer(peer Peer, reason interface{}) {
 	sw.transport.Cleanup(peer)
 	if err := peer.Stop(); err != nil {
-		sw.Logger.Error("error while stopping peer", "error", err) // TODO: should return error to be handled accordingly
+		//ST-310:Change log level - Error level to Info
+		sw.Logger.Info("error while stopping peer", "warn", err) // TODO: should return error to be handled accordingly
 	}
 
 	for _, reactor := range sw.reactors {
